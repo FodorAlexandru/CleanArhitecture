@@ -12,6 +12,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
+import common.base.ModelBase;
 import common.constants.SqlConstants;
 
 /**
@@ -22,12 +23,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     //region Fields
 
     private Dao<User, String> simpleDao = null;
+    private static DatabaseHelper instance;
 
     //endregion
 
     //region Constructor
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, SqlConstants.DB_NAME, null, SqlConstants.DB_VERSION);
         createDatabase(context);
     }
@@ -64,11 +66,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     //endregion
 
-    //region Methods
+    //region Get Methods
 
-    public void createDatabase(Context context){
-        DatabaseInitializer initializer = new DatabaseInitializer(context);
-        initializer.createDatabase();
+    public static DatabaseHelper getInstance(){
+        return instance;
+    }
+
+    public static void init(Context context){
+        new DatabaseHelper(context);
     }
 
     public Dao<User, String> getUserDao(){
@@ -80,6 +85,23 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return simpleDao;
+    }
+
+    //endregion
+
+    //region Methods
+
+    public void createDatabase(Context context){
+        DatabaseInitializer initializer = new DatabaseInitializer(context);
+        initializer.createDatabase();
+    }
+
+    public void addRow(User employe){
+        try {
+            simpleDao.create(employe);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //endregion

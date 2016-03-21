@@ -15,7 +15,7 @@ import java.sql.SQLException;
 /**
  * Created by shade_000 on 3/21/2016.
  */
-public class OrmliteCursorLoader<T> extends AsyncTaskLoader<Cursor> {
+public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTaskLoader<Cursor> {
 
     //region Fields
 

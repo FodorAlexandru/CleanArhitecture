@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class ModelBase implements Serializable{
     //region Fields
-    @DatabaseField(id = true)
+    @DatabaseField(id = true, columnName = "_id")
     private int Id;
     //endregion
 
