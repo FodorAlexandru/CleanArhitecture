@@ -31,10 +31,10 @@ public abstract class OrmliteCursorAdapter<T> extends CursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         try
         {
-            T item = mQuery.mapRow(new AndroidDatabaseResults(cursor, null)) ;
-            bindView(view, context, item);
+            bindView(view, context,  mQuery.mapRow(new AndroidDatabaseResults(cursor, null)));
         }
         catch(SQLException e)
         {

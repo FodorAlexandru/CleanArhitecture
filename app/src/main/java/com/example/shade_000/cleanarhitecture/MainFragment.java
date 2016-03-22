@@ -53,7 +53,7 @@ public class MainFragment extends BaseFragment implements android.support.v4.app
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Dao<User, String> userDao = DatabaseHelper.getInstance().getUserDao();
         try {
-            return new OrmliteCursorLoader<>(getContext(), userDao, userDao.queryBuilder().prepare());
+            return new OrmliteCursorLoader<User>(getContext(), userDao, userDao.queryBuilder().prepare());
         } catch (SQLException e) {
             e.printStackTrace();
         }

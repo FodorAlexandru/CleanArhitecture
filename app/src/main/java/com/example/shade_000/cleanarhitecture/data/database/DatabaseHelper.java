@@ -31,7 +31,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private DatabaseHelper(Context context) {
         super(context, SqlConstants.DB_NAME, null, SqlConstants.DB_VERSION);
-        createDatabase(context);
+        //createDatabase(context);
     }
 
     //endregion
@@ -64,6 +64,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    @Override
+    public void close() {
+        super.close();
+        simpleDao = null;
+    }
+
     //endregion
 
     //region Get Methods
@@ -73,7 +79,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static void init(Context context){
-        new DatabaseHelper(context);
+        instance = new DatabaseHelper(context);
     }
 
     public Dao<User, String> getUserDao(){
@@ -96,11 +102,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         initializer.createDatabase();
     }
 
-    public void addRow(User employe){
+    public void addRow(User user){
         try {
-            simpleDao.create(employe);
+            getUserDao().create(user);
+            Log.i(DatabaseHelper.class.getName(), "Db insert:" +user.toString());
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(DatabaseHelper.class.getName(), "Db insert error:" + user.toString());
         }
     }
 

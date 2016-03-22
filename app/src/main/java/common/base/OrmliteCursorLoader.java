@@ -54,7 +54,7 @@ public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTask
                     (AndroidDatabaseResults)iterator.getRawResults();
             cursor = results.getRawCursor();
         } finally {
-            iterator.closeQuietly();
+            //iterator.closeQuietly();
         }
 
         if (cursor != null) {

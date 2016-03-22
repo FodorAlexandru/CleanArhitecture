@@ -15,7 +15,7 @@ public class CleanArchitectureApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new DatabaseHelper(getApplicationContext());
+        DatabaseHelper.init(getApplicationContext());
     }
 
 

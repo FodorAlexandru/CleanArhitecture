@@ -9,14 +9,14 @@ import java.io.Serializable;
  */
 public class ModelBase implements Serializable{
     //region Fields
-    @DatabaseField(id = true, columnName = "_id")
-    private int Id;
+    @DatabaseField(generatedId = true,columnName = "_id")
+    private int id;
     //endregion
 
     //region Get Methods
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     //endregion
@@ -24,7 +24,7 @@ public class ModelBase implements Serializable{
     //region Set Methods
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     //endregion
@@ -38,12 +38,12 @@ public class ModelBase implements Serializable{
 
         ModelBase modelBase = (ModelBase) o;
 
-        return Id == modelBase.Id;
+        return id == modelBase.id;
     }
 
     @Override
     public int hashCode() {
-        return Id;
+        return id;
     }
 
     //endregion

@@ -9,13 +9,13 @@ import common.base.ModelBase;
  */
 public class User extends ModelBase{
     //region Fields
-    @DatabaseField
+    @DatabaseField (canBeNull = true)
     String email;
-    @DatabaseField
+    @DatabaseField(canBeNull = true)
     String alias;
-    @DatabaseField
+    @DatabaseField(canBeNull = true)
     String address;
-    @DatabaseField
+    @DatabaseField(canBeNull = true)
     String phoneNumber;
     //endregion
 

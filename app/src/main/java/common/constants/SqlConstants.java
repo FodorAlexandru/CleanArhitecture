@@ -5,7 +5,7 @@ package common.constants;
  */
 public class SqlConstants {
     //region Database
-    public static String DB_NAME = "CleanArchitecture.sqlite";
+    public static String DB_NAME = "CleanArchitecture.db";
     public static final int DB_VERSION = 1;
     //endregion
 }

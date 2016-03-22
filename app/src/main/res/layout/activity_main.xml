@@ -18,6 +18,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <fragment
+        android:id="@+id/fragment_main"
+        android:name="com.example.shade_000.cleanarhitecture.MainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
