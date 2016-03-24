@@ -5,10 +5,13 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 
+import com.j256.ormlite.android.AndroidCompiledStatement;
 import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.StatementBuilder;
+import com.j256.ormlite.support.DatabaseConnection;
 
 import java.sql.SQLException;
 
@@ -28,7 +31,7 @@ public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTask
 
     //region Constructor
 
-    public OrmliteCursorLoader(Context context, Dao<T,?> dao,PreparedQuery<T> query) {
+    public OrmliteCursorLoader(Context context, Dao<T, ?> dao, PreparedQuery<T> query) {
         super(context);
         mDao = dao;
         mQuery = query;
@@ -45,17 +48,21 @@ public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTask
         CloseableIterator<T> iterator = null;
         try {
             iterator = mDao.iterator(mQuery);
+            // get the raw results which can be cast under Android
+            AndroidDatabaseResults results =
+                    (AndroidDatabaseResults) iterator.getRawResults();
+            cursor = results.getRawCursor();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            // get the raw results which can be cast under Android
-            AndroidDatabaseResults results =
-                    (AndroidDatabaseResults)iterator.getRawResults();
-            cursor = results.getRawCursor();
-        } finally {
-            //iterator.closeQuietly();
-        }
+
+        /*try {
+            DatabaseConnection readOnlyConn = mDao.getConnectionSource().getReadOnlyConnection();
+            AndroidCompiledStatement stmt = (AndroidCompiledStatement) mQuery.compile(readOnlyConn, StatementBuilder.StatementType.SELECT);
+            cursor = stmt.getCursor();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
 
         if (cursor != null) {
             // Ensure the cursor window is filled
@@ -74,11 +81,11 @@ public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTask
 
     @Override
     protected void onStartLoading() {
-        if(mCursor!=null){
+        if (mCursor != null) {
             deliverResult(mCursor);
         }
 
-        if(takeContentChanged() || mCursor==null){
+        if (takeContentChanged() || mCursor == null) {
             forceLoad();
         }
     }
@@ -146,8 +153,8 @@ public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTask
 
     //region Methods
 
-    private void closeCursor(Cursor cursor){
-        if(mCursor!=null && !mCursor.isClosed())
+    private void closeCursor(Cursor cursor) {
+        if (mCursor != null && !mCursor.isClosed())
             cursor.close();
     }
 

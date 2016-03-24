@@ -28,9 +28,18 @@ public class MainFragment extends BaseFragment implements android.support.v4.app
 
     //region Fields
     UserAdapter userAdapter;
+    private String[][] data = {{"Gray Watson", "Gray.Watson@gmail.com"}, {"Ravi Verma", "Ravi.Verma@gmail.com"}, {"Ashok Singhal", "Ashok.Singhal@gmail.com"},{"Amit Yadav", "Amit.Yadav@gmail.com"}, {"Jake Wharton", "Jake.Wharton@gmail.com"}};
     //endregion
 
     //region Overrides
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loadInitData();
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_main;
@@ -91,7 +100,16 @@ public class MainFragment extends BaseFragment implements android.support.v4.app
     }
 
     private void initLoader(){
-        getLoaderManager().initLoader(1,null,this);
+        getLoaderManager().initLoader(1, null, this);
+    }
+
+    private void loadInitData(){
+        for(int i=0; i < data.length; i++) {
+            User user = new User();
+            user.setAlias(data[i][0]);
+            user.setEmail(data[i][1]);
+            DatabaseHelper.getInstance().addRow(user);
+        }
     }
 
     //endregion
