@@ -6,8 +6,12 @@ import android.view.MenuItem;
 
 import com.example.shade_000.cleanarhitecture.data.database.DatabaseHelper;
 import com.example.shade_000.cleanarhitecture.data.models.User;
+import com.example.shade_000.cleanarhitecture.data.models.eventBuss.DataChangedEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import common.base.BaseActivity;
+import common.constants.EventBussConstants;
 
 public class MainActivity extends BaseActivity{
 
@@ -52,12 +56,13 @@ public class MainActivity extends BaseActivity{
     //region Methods
 
     private void loadInitData(){
-            for(int i=0; i < data.length; i++) {
-                User user = new User();
-                user.setAlias(data[i][0]);
-                user.setEmail(data[i][1]);
-                DatabaseHelper.getInstance().addRow(user);
-            }
+        for (String[] aData : data) {
+            User user = new User();
+            user.setAlias(aData[0]);
+            user.setEmail(aData[1]);
+            DatabaseHelper.getInstance().addRow(user);
+        }
+        EventBus.getDefault().postSticky(new DataChangedEvent(EventBussConstants.UserDataChangedEvent));
     }
 
     //endregion

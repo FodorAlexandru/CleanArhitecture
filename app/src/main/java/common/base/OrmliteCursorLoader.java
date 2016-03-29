@@ -73,61 +73,7 @@ public class OrmliteCursorLoader<T> extends android.support.v4.content.AsyncTask
         return cursor;
     }
 
-    @Override
-    protected void onStopLoading() {
-        super.onStopLoading();
-        cancelLoad();
-    }
 
-    @Override
-    protected void onStartLoading() {
-        if (mCursor != null) {
-            deliverResult(mCursor);
-        }
-
-        if (takeContentChanged() || mCursor == null) {
-            forceLoad();
-        }
-    }
-
-    @Override
-    protected void onReset() {
-        super.onReset();
-
-        onStopLoading();
-        closeCursor(mCursor);
-
-        mCursor = null;
-    }
-
-    @Override
-    public void onCanceled(Cursor data) {
-        closeCursor(data);
-    }
-
-    @Override
-    public void deliverResult(Cursor data) {
-        if (isReset()) {
-            // Data is invalidated due to reset request
-            if (data != null) {
-                data.close();
-            }
-            return;
-        }
-
-        //Old data is being hold so it doesn't get garbage collected
-        Cursor oldCursor = mCursor;
-        mCursor = data;
-
-        if (isStarted()) {
-            super.deliverResult(data);
-        }
-
-        // Old data is invalidated due to not being needed
-        if (oldCursor != null && oldCursor != data && !oldCursor.isClosed()) {
-            oldCursor.close();
-        }
-    }
 
     //endregion
 

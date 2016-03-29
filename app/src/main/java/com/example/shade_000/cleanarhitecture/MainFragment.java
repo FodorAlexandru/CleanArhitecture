@@ -1,7 +1,5 @@
 package com.example.shade_000.cleanarhitecture;
 
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.example.shade_000.cleanarhitecture.business.adapters.UserAdapter;
+import com.example.shade_000.cleanarhitecture.business.loaders.GeneralLoader;
 import com.example.shade_000.cleanarhitecture.data.database.DatabaseHelper;
 import com.example.shade_000.cleanarhitecture.data.models.User;
 import com.j256.ormlite.dao.Dao;
@@ -19,7 +18,6 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 
 import common.base.BaseFragment;
-import common.base.OrmliteCursorLoader;
 
 /**
  * Created by shade_000 on 3/20/2016.
@@ -62,7 +60,7 @@ public class MainFragment extends BaseFragment implements android.support.v4.app
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Dao<User, String> userDao = DatabaseHelper.getInstance().getUserDao();
         try {
-            return new OrmliteCursorLoader<User>(getContext(), userDao, userDao.queryBuilder().prepare());
+            return new GeneralLoader<>(getContext(), userDao, userDao.queryBuilder().prepare());
         } catch (SQLException e) {
             e.printStackTrace();
         }
