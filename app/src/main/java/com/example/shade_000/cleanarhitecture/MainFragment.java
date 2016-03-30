@@ -31,7 +31,6 @@ public class MainFragment extends BaseFragment implements android.support.v4.app
 
     //region Overrides
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +47,6 @@ public class MainFragment extends BaseFragment implements android.support.v4.app
         super.onViewCreated(view, savedInstanceState);
         initControls(view);
         initLoader();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutId(),container,false);
     }
 
     @Override
